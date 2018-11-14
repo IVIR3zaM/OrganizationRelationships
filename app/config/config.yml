@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: doctrine_migrations.yml }
     - { resource: security.yml }
 
 parameters:
@@ -13,7 +14,8 @@ framework:
     form: ~
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer:
+        enabled: true
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
@@ -37,3 +39,40 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+            softdeleteable: true
+
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            formatter: monolog.formatter.json
+            channels: ['!event']
+
+fos_rest:
+    param_fetcher_listener: force
+    view:
+        view_response_listener: 'force'
+        mime_types:
+            json: ['application/json; charset=UTF-8']
+        formats:
+            json: true
+    routing_loader:
+        default_format: json
+    body_converter:
+        enabled: true
+        validate: true
+    format_listener:
+        rules:
+            - { path: ^/, priorities: ['json'], fallback_format: json, prefer_extension: true }
+    access_denied_listener:
+        json: true
+    exception:
+        exception_controller: 'fos_rest.exception.controller:showAction'
+        messages:
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException': true

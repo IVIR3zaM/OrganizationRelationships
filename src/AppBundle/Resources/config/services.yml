@@ -1,0 +1,15 @@
+services:
+  app.service.organization_request_handler:
+      class: IVIR3zaM\OrganizationRelationships\AppBundle\Service\OrganizationRequestHandler
+      public: true
+      arguments: ['@doctrine.orm.entity_manager']
+
+  app.service.organization_relation_pagination:
+    class: IVIR3zaM\OrganizationRelationships\AppBundle\Service\OrganizationRelationPagination
+    public: true
+    arguments: ['@doctrine.orm.entity_manager', '%app.pagination.max_results%']
+
+  app.event_listener.constraint_violation_list_event_listener:
+    class: IVIR3zaM\OrganizationRelationships\AppBundle\EventListener\ControllerArgumentConstraintViolationListEventListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller_arguments, method: onControllerArgumentsHandle }

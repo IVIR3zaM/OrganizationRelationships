@@ -1,0 +1,13 @@
+services:
+  app.normalizer.organization_relations_normalizer:
+    class: IVIR3zaM\OrganizationRelationships\AppBundle\Normalizer\OrganizationRelationsNormalizer
+    public: false
+    tags:
+      - { name: serializer.normalizer }
+
+  app.normalizer.validation_failed_bad_request_exception_normalizer:
+    class: IVIR3zaM\OrganizationRelationships\AppBundle\Normalizer\ValidationFailedBadRequestHttpExceptionNormalizer
+    arguments: ['@logger']
+    public: false
+    tags:
+      - { name: serializer.normalizer }

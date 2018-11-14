@@ -5,3 +5,4 @@ parameters:
     database_user: root
     database_password: ~
     secret: ThisTokenIsNotSoSecretChangeIt
+    app.pagination.max_results: 100

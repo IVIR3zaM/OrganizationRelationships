@@ -1,2 +1,7 @@
 imports:
     - { resource: config.yml }
+
+monolog:
+    handlers:
+        main:
+            level: debug
